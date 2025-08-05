@@ -16,7 +16,7 @@ Starbucks wants to personalize the promotional offers it sends to customers. How
 
 - Identify which customers are most likely to be influenced by different types of offers.
 - Determine demographic patterns in responsiveness to offers (BOGO, discount, informational).
-- (Optionally) Build a predictive model to estimate whether a user will complete an offer.
+- Build a predictive model to estimate whether a user will complete an offer.
 
 ---
 
@@ -48,7 +48,7 @@ The dataset contains simulated data provided by Starbucks, split across three fi
 - Bar plots and heatmaps of influenced rates across demographic segments.
 - Distribution plots of income, age, and response rates.
 
-### 4. Modeling (optional)
+### 4. Modeling
 - Built a classifier to predict offer influence based on user and offer features.
 - Evaluated model using accuracy, precision, recall, and feature importance.
 
