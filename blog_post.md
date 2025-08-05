@@ -1,88 +1,131 @@
-# Starbucks Offer Recommendation – Capstone Project
+# Starbucks Customer Behavior Analysis
 
-## Project Overview
-
-This project explores customer behavior in response to different types of promotional offers provided by Starbucks. Using a combination of transaction, offer, and demographic data, the project seeks to answer:
-
-> **"Which types of offers are most effective for which types of customers?"**
-
-This project was developed as part of the Udacity Data Science Nanodegree Capstone.
+### By Christian Scheu
 
 ---
 
-## Problem Statement
+## Introduction
 
-Starbucks wants to personalize the promotional offers it sends to customers. However, different users react differently to the same offer depending on age, gender, income, and offer type. The goal of this project is to:
-
-- Identify which customers are most likely to be influenced by different types of offers.
-- Determine demographic patterns in responsiveness to offers (BOGO, discount, informational).
-- Build a predictive model to estimate whether a user will complete an offer.
+In this project, I analyze customer interaction data from a Starbucks promotional campaign using the **Starbucks Capstone Dataset** provided by Udacity. The primary goal is to understand how different demographic groups (age, gender, income) engage with promotional offers—whether they receive them, view them, and ultimately complete them. These insights can help Starbucks better personalize its marketing strategies to maximize offer effectiveness and customer satisfaction.
 
 ---
 
-## Data Sources
+## Dataset Overview
 
-The dataset contains simulated data provided by Starbucks, split across three files:
+The project leverages three JSON files:
 
-- **portfolio.json** – metadata on each offer (type, difficulty, duration, etc.)
-- **profile.json** – user demographic info (age, gender, income, membership date)
-- **transcript.json** – events triggered by users (viewed, received, completed offers; transactions)
+1. **portfolio.json** – Information about promotional offers (e.g., type, difficulty, duration).
+2. **profile.json** – Customer demographics and membership details.
+3. **transcript.json** – Event logs of customer interactions with the offers.
 
----
-
-## Analysis & Methodology
-
-### 1. Data Cleaning & Preprocessing
-- Parsed and merged event logs to create a clear event history.
-- Engineered flags to define when an offer was **viewed**, **completed**, and **influenced** (viewed before completing).
-- Merged demographic and offer metadata with event logs.
-
-### 2. Exploratory Data Analysis (EDA)
-- Identified trends in offer completion and influence across:
-  - Gender
-  - Age groups
-  - Income brackets
-  - Offer types
-
-### 3. Visualizations
-- Bar plots and heatmaps of influenced rates across demographic segments.
-- Distribution plots of income, age, and response rates.
-
-### 4. Modeling
-- Built a classifier to predict offer influence based on user and offer features.
-- Evaluated model using accuracy, precision, recall, and feature importance.
+Each file required careful preprocessing before any analysis could begin.
 
 ---
 
-## Results
+## Data Wrangling
 
-- **BOGO offers** were more effective for younger users and males.
-- **Discount offers** performed better with older and higher-income customers.
-- **Informational offers** had low influence rates, but still impacted certain groups (e.g., females and middle-income users).
-- The predictive model (Random Forest) achieved reasonable performance in classifying influenced offers, with key features being offer type, income, and age.
+### Transcript Parsing
 
----
+The `transcript` file includes four event types: `offer received`, `offer viewed`, `offer completed`, and `transaction`. Each entry contains nested dictionaries, requiring transformation into a flat format. Offers were mapped using IDs to maintain consistency across datasets.
 
-## Key Learnings
+### Customer Profiles
 
-- Merging and aligning offer events over time was a non-trivial challenge and required detailed logic.
-- Influence needs to be carefully defined to avoid misleading conclusions.
-- Demographic segmentation provides clearer insights than aggregate statistics.
+Invalid entries (e.g., missing values or placeholder values like `"gender": None`) were removed. Age, income, and gender were preserved, and membership dates were converted from Unix timestamp format to readable dates.
 
----
+### Merging Datasets
 
-## 🔧 Technologies Used
-
-- Python (Pandas, NumPy, Scikit-learn, Matplotlib)
-- Jupyter Notebook
-- JSON for data loading
-- Git/GitHub for version control
+Each interaction in the `transcript` dataset was merged with corresponding customer profiles and offer metadata. This enabled rich, joined insights by combining offer types, demographics, and behaviors in a single view.
 
 ---
 
-## How to Run the Project
+## Feature Engineering
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/starbucks-offer-capstone.git
-   cd starbucks-offer-capstone
+New columns were created to facilitate analysis:
+
+- **viewed**: Whether the customer viewed the offer.
+- **completed**: Whether the offer was completed.
+- **received**: Whether the offer was received.
+- **duration**: Offer duration in days.
+- **age_group** and **income_bracket**: Categorical features for grouping.
+- **became_member_year**: Extracted from membership date.
+
+These features enabled grouped statistical analysis and visualization.
+
+---
+
+## Behavioral Analysis
+
+### Age Group Analysis
+
+Customers were grouped by age range:
+
+- <25  
+- 25-34  
+- 35-49  
+- 50–64    
+- 65+  
+
+For each group, I calculated the number of offers **received**, **viewed**, and **completed**.
+
+#### Key Insight:
+- Offer interaction peaks between **ages 50-64**.
+- Users under 25 and over 65 had the lowest engagement.
+
+---
+
+### Gender Analysis
+
+Engagement patterns were analyzed across genders: **Male (M)**, **Female (F)**, and **Other (O)**.
+
+#### Key Insight:
+- **Females** viewed and completed more offers than males, despite similar receipt rates.
+- The **“Other”** category showed relatively lower engagement, though sample size may influence this.
+
+---
+
+### Income Bracket Analysis
+
+Customers were binned into five income brackets:
+
+- **<40k**  
+- **40–70k**  
+- **70–100k**  
+- **100–150k**  
+- **150k+**
+
+#### Key Insight:
+- Engagement increases with income up to the **100–150k** bracket.
+- **Highest completion rates** were observed in the high income range, suggesting this might be a sweet spot for future campaigns.
+
+---
+
+## Future Improvements
+
+While this analysis offers a solid foundation, there are areas for refinement:
+
+1. **Normalize by Group Size**: Current results use absolute counts; normalizing by the number of users in each group would reveal relative engagement rates.
+2. **Conversion Rates**: Calculating offer **conversion** (`completed / viewed`) would provide more actionable marketing insight.
+3. **Time-Series Analysis**: Mapping engagement over time since joining Starbucks could show loyalty trends.
+4. **Modeling Next Steps**: Predictive modeling could help target the most responsive customers with personalized offers.
+
+---
+
+## Conclusion
+
+This project explored how different customer demographics interact with promotional offers using real behavioral data from Starbucks. Key findings include:
+
+- **Middle-aged and higher-income users are more engaged**.
+- **Females** tend to respond more actively to offers.
+- **Personalization opportunities** are ripe, especially in optimizing who receives which type of offer.
+
+These insights pave the way for data-driven marketing strategies that could significantly boost campaign ROI.
+
+---
+
+## References
+
+- Starbucks Capstone Dataset, Udacity  
+- Pandas Documentation: https://pandas.pydata.org/docs/  
+- Matplotlib Documentation: https://matplotlib.org/stable/contents.html
+
+---
