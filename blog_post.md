@@ -207,8 +207,8 @@ Special thanks to:
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/yourusername/starbucks-offer-capstone.git
-cd starbucks-offer-capstone
+git clone https://github.com/CScheu/Starbucks_Project.git
+cd Starbucks_Project
 ```
 
 2. **Install dependencies:**
@@ -220,7 +220,7 @@ pip install pandas numpy scikit-learn matplotlib seaborn jupyter
 3. **Launch Jupyter Notebook:**
 
 ```bash
-jupyter notebook Starbucks_Capstone.ipynb
+jupyter notebook Starbucks_Capstone_notebook.ipynb
 ```
 
 4. **Follow the notebook to reproduce EDA, modeling, and results.**
