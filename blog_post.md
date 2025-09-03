@@ -98,6 +98,8 @@ plt.ylim(0, 1)
 plt.show()
 ```
 
+![bar chart](bar_chart.png)
+
 ## Data Preprocessing
 
 Steps included:
